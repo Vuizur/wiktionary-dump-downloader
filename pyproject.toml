@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "wiktionary_dump_downloader"}]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = ">=3.8"
 beautifulsoup4 = "^4.11.1"
 requests = "^2.28.1"
 
