@@ -1,3 +1,4 @@
+import json
 from typing import Literal
 import requests
 import bs4
@@ -82,9 +83,18 @@ class HtmlDumpDownloader:
             for member in tar.getmembers():
                 f = tar.extractfile(member)
                 if f is not None:
-                    yield f.read()
+                    yield f.readline().decode("utf-8")
 
     def delete_dump(self):
         import os
 
         os.remove(self.packed_dump_path)
+
+if __name__ == "__main__":
+    downloader = HtmlDumpDownloader("cs", "wikiquote", "test-output")
+    for i, line in enumerate(downloader.unpack_dump()):
+        # convert the bytes to a string
+        line = json.loads(line)
+        print(line)
+        if i == 10:
+            break
