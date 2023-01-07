@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "wiktionary-dump-downloader"
+version = "0.1.0"
+description = ""
+authors = ["Vuizur <Vuizur@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "wiktionary_dump_downloader"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+beautifulsoup4 = "^4.11.1"
+requests = "^2.28.1"
+
+
+[tool.poetry.group.dev.dependencies]
+black = {version = "^23.1a1", allow-prereleases = true}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+# Script entry point
+[tool.poetry.scripts]
+wiktionary-dump-downloader = "wiktionary_dump_downloader.__main__:main"
