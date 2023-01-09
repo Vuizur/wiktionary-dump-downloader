@@ -3,6 +3,8 @@ from typing import Literal
 import requests
 import bs4
 import tarfile
+import os
+
 
 HTML_DUMP_URL = "https://dumps.wikimedia.org/other/enterprise_html/runs/"
 
@@ -63,12 +65,18 @@ class HtmlDumpDownloader:
                 "Multiple dumps found for the given language and type. This should not happen. Please report this issue on GitHub."
             )
 
-        print(f"Downloading {results[0]}...")
-        response = requests.get(link_to_latest_dump + results[0])
-        response.raise_for_status()
-        with open(results[0], "wb") as f:
-            f.write(response.content)
-        print(f"Downloaded {results[0]}")
+        # Check if the dump is already downloaded
+        if os.path.exists(results[0]):
+            print(
+                f"The dump {results[0]} is already downloaded. If you want to download it again, please delete it first."
+            )
+        else:
+            print(f"Downloading {results[0]}...")
+            response = requests.get(link_to_latest_dump + results[0])
+            response.raise_for_status()
+            with open(results[0], "wb") as f:
+                f.write(response.content)
+            print(f"Downloaded {results[0]}")
 
         self._output_folder = output_folder
         self._lang_code = lang_code
@@ -83,7 +91,8 @@ class HtmlDumpDownloader:
             for member in tar.getmembers():
                 f = tar.extractfile(member)
                 if f is not None:
-                    yield f.readline().decode("utf-8")
+                    for line in f:
+                        yield line.decode("utf-8")
 
     def delete_dump(self):
         import os
