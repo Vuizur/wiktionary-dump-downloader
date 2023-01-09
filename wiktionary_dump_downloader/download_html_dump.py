@@ -89,10 +89,14 @@ class HtmlDumpDownloader:
         (for example for space reasons)."""
         with tarfile.open(self.packed_dump_path) as tar:
             for member in tar.getmembers():
-                f = tar.extractfile(member)
-                if f is not None:
+                #f = tar.extractfile(member)
+                # Write member to file
+                print("Extracting member " + member.name)
+                tar.extract(member)
+                with open(member.name, "r", encoding="utf-8") as f:
                     for line in f:
-                        yield line.decode("utf-8")
+                        yield line
+                os.remove(member.name)
 
     def delete_dump(self):
         import os
