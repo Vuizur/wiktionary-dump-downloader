@@ -4,7 +4,7 @@ import requests
 import bs4
 import tarfile
 import os
-from wiktionary_dump_downloader.fast_download import download_file_fast
+import pySmartDL
 
 HTML_DUMP_URL = "https://dumps.wikimedia.org/other/enterprise_html/runs/"
 
@@ -72,7 +72,12 @@ class HtmlDumpDownloader:
             )
         else:
             print(f"Downloading {results[0]}...")
-            download_file_fast(link_to_latest_dump + results[0], results[0])
+            #download_file_fast(link_to_latest_dump + results[0], results[0])
+
+            url = link_to_latest_dump + results[0]
+            dest = "" #results[0]
+            obj = pySmartDL.SmartDL(url, dest)
+            obj.start()
 
             print(f"Downloaded {results[0]}")
 
