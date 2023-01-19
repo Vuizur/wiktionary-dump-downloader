@@ -4,7 +4,7 @@ import requests
 import bs4
 import tarfile
 import os
-
+import urllib.request
 
 HTML_DUMP_URL = "https://dumps.wikimedia.org/other/enterprise_html/runs/"
 
@@ -72,10 +72,13 @@ class HtmlDumpDownloader:
             )
         else:
             print(f"Downloading {results[0]}...")
-            response = requests.get(link_to_latest_dump + results[0])
-            response.raise_for_status()
-            with open(results[0], "wb") as f:
-                f.write(response.content)
+             #response = requests.get(link_to_latest_dump + results[0])
+            #response.raise_for_status()
+            #with open(results[0], "wb") as f:
+            #    f.write(response.content)
+
+            urllib.request.urlretrieve(link_to_latest_dump + results[0], results[0])
+
             print(f"Downloaded {results[0]}")
 
         self._output_folder = output_folder
