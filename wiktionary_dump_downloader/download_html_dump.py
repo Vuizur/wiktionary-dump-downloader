@@ -58,6 +58,15 @@ class HtmlDumpDownloader:
             print(
                 "No dumps found for the given language and type. Please check the language code and dump type."
             )
+            print("Checking for local files...")
+            # Check if there are any local files that match the given language and type
+            for file in os.listdir(""):
+                if (
+                    file.startswith(lang_code + dump_type)
+                    and f"NS{namespace}" in file
+                ):
+                    results.append(file)
+
 
         elif len(results) > 1:
             print(results)
@@ -66,7 +75,7 @@ class HtmlDumpDownloader:
             )
 
         # Check if the dump is already downloaded
-        if os.path.exists(results[0]):
+        elif os.path.exists(results[0]):
             print(
                 f"The dump {results[0]} is already downloaded. If you want to download it again, please delete it first."
             )
