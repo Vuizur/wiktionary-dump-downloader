@@ -60,7 +60,7 @@ class HtmlDumpDownloader:
             )
             print("Checking for local files...")
             # Check if there are any local files that match the given language and type
-            for file in os.listdir(""):
+            for file in os.listdir():
                 if (
                     file.startswith(lang_code + dump_type)
                     and f"NS{namespace}" in file
